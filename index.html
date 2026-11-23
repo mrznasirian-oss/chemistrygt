@@ -1,0 +1,1774 @@
+﻿جدول تناوبی
+───────────
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERIODIC LAB | آزمایشگاه جدول تناوبی</title>
+    <style>
+        /* ==========================================================================
+           1. CORE VARIABLES & HIGH-PERFORMANCE THEMING
+           ========================================================================== */
+        :root {
+            --bg-primary: #090d16;
+            --bg-secondary: #131b2e;
+            --bg-card: #1c273e;
+            --bg-card-hover: #2a3a5c;
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.12);
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --accent-glow: rgba(56, 189, 248, 0.35);
+            --accent-color: #38bdf8;
+            --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --radius-sm: 5px;
+            --radius-md: 8px;
+            --radius-lg: 14px;
+            --radius-full: 9999px;
+
+            /* IUPAC Standard Category Colors (High Contrast) */
+            --cat-alkali: #ef4444;
+            --cat-alkaline-earth: #f97316;
+            --cat-transition: #3b82f6;
+            --cat-post-transition: #10b981;
+            --cat-metalloid: #8b5cf6;
+            --cat-reactive-nonmetal: #ec4899;
+            --cat-halogen: #06b6d4;
+            --cat-noble-gas: #eab308;
+            --cat-lanthanide: #a855f7;
+            --cat-actinide: #f43f5e;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f1f5f9;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-hover: #e2e8f0;
+            --bg-glass: rgba(0, 0, 0, 0.04);
+            --border-glass: rgba(0, 0, 0, 0.14);
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --accent-glow: rgba(2, 132, 199, 0.25);
+            --accent-color: #0284c7;
+            --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .reduce-motion * {
+            animation-duration: 0.001s !important;
+            transition-duration: 0.001s !important;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Vazirmatn', sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100vw;
+            min-height: 100vh;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .glass-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-soft);
+            border-radius: var(--radius-md);
+        }
+
+        /* ==========================================================================
+           2. COMPACT HEADER (SAVING VERTICAL SPACE)
+           ========================================================================== */
+        header {
+            height: 46px;
+            min-height: 46px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-glass);
+            z-index: 100;
+            gap: 0.6rem;
+            flex-wrap: nowrap;
+        }
+
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand-logo {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--accent-color), #818cf8);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .brand-titles h1 {
+            font-size: 0.98rem;
+            font-weight: 800;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .brand-titles p {
+            font-size: 0.64rem;
+            color: var(--text-muted);
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.3rem;
+            background: var(--bg-glass);
+            padding: 0.2rem;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-glass);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.85rem;
+            border-radius: var(--radius-full);
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover { color: var(--text-primary); }
+
+        .nav-btn.active {
+            background: var(--accent-color);
+            color: #ffffff;
+            box-shadow: 0 2px 8px var(--accent-glow);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-box {
+            position: relative;
+            width: 180px;
+        }
+
+        @media (min-width: 768px) {
+            .search-box { width: 230px; }
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            padding: 0.3rem 0.75rem 0.3rem 1.8rem;
+            border-radius: var(--radius-full);
+            color: var(--text-primary);
+            font-size: 0.78rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .search-clear {
+            position: absolute;
+            left: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: none;
+            font-size: 0.8rem;
+        }
+
+        .search-results-dropdown {
+            position: absolute;
+            top: 115%;
+            right: 0;
+            left: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            max-height: 240px;
+            overflow-y: auto;
+            z-index: 105;
+            box-shadow: var(--shadow-soft);
+            display: none;
+        }
+
+        .search-item {
+            padding: 0.45rem 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-glass);
+            font-size: 0.78rem;
+        }
+
+        .search-item:hover { background: var(--bg-glass); }
+
+        .icon-btn {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            width: 30px;
+            height: 30px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .icon-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* ==========================================================================
+           3. MAIN LAYOUT & FILTER BAR
+           ========================================================================== */
+        main {
+            flex: 1;
+            padding: 0.4rem 0.6rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            box-sizing: border-box;
+        }
+
+        .view-panel {
+            display: none;
+            width: 100%;
+        }
+
+        .view-panel.active {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .filter-section {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem 0.6rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            height: 36px;
+            min-height: 36px;
+        }
+
+        .filter-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-left: 0.15rem;
+            flex-shrink: 0;
+        }
+
+        .filter-chip {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            padding: 0.2rem 0.55rem;
+            border-radius: var(--radius-full);
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            flex-shrink: 0;
+        }
+
+        .filter-chip .chip-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .filter-chip:hover, .filter-chip.active {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 6px var(--accent-glow);
+        }
+
+        /* Category Color Dots */
+        .chip-alkali { color: var(--cat-alkali); }
+        .chip-alkaline-earth { color: var(--cat-alkaline-earth); }
+        .chip-transition { color: var(--cat-transition); }
+        .chip-post-transition { color: var(--cat-post-transition); }
+        .chip-metalloid { color: var(--cat-metalloid); }
+        .chip-reactive-nonmetal { color: var(--cat-reactive-nonmetal); }
+        .chip-halogen { color: var(--cat-halogen); }
+        .chip-noble-gas { color: var(--cat-noble-gas); }
+        .chip-lanthanide { color: var(--cat-lanthanide); }
+        .chip-actinide { color: var(--cat-actinide); }
+
+        /* ==========================================================================
+           4. MAXIMIZED, HIGH-CONTRAST PERIODIC TABLE GRID (ZERO LAG)
+           ========================================================================== */
+        .periodic-table-wrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 0;
+            overflow-x: auto;
+        }
+
+        .periodic-grid {
+            display: grid;
+            grid-template-columns: repeat(18, minmax(0, 1fr));
+            grid-template-rows: repeat(7, minmax(0, 1fr)) 10px repeat(2, minmax(0, 1fr));
+            gap: 3px;
+            width: 100%;
+            max-width: 1750px;
+            height: clamp(480px, 68vh, 680px);
+            margin: auto;
+            box-sizing: border-box;
+            contain: layout style;
+        }
+
+        .element-cell {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            padding: 2px 3px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.12s ease, border-color 0.12s ease, opacity 0.12s ease;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            user-select: none;
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        .element-cell:hover {
+            transform: scale(1.15);
+            z-index: 90;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+            border-color: var(--accent-color);
+            background: var(--bg-card-hover);
+        }
+
+        .element-cell.selected {
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+            transform: scale(1.06);
+            z-index: 40;
+        }
+
+        .element-cell.dimmed {
+            opacity: 0.15 !important;
+            filter: grayscale(85%);
+        }
+
+        .element-cell .cell-top {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .element-cell .cell-z {
+            font-size: clamp(0.55rem, 0.72vw, 0.82rem);
+            font-weight: 700;
+            color: var(--text-muted);
+            line-height: 1;
+        }
+
+        .element-cell .cell-state-icon {
+            font-size: clamp(0.5rem, 0.6vw, 0.7rem);
+            line-height: 1;
+        }
+
+        /* CRISP, UNMISTAKABLE LATIN SYMBOLS IN CENTER */
+        .element-cell .cell-symbol {
+            direction: ltr;
+            unicode-bidi: isolate;
+            font-size: clamp(0.95rem, 1.45vw, 1.65rem);
+            font-weight: 800;
+            text-align: center;
+            line-height: 1;
+            margin: 0;
+            padding: 0;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            flex-shrink: 0;
+        }
+
+        [data-theme="light"] .element-cell .cell-symbol {
+            color: #0f172a;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+        }
+
+        .element-cell .cell-name {
+            font-size: clamp(0.5rem, 0.68vw, 0.78rem);
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            color: var(--text-secondary);
+            font-weight: 600;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        /* Category Background Cards */
+        .cat-alkali-metal { background: rgba(239, 68, 68, 0.22); border-top: 3px solid var(--cat-alkali); }
+        .cat-alkaline-earth-metal { background: rgba(249, 115, 22, 0.22); border-top: 3px solid var(--cat-alkaline-earth); }
+        .cat-transition-metal { background: rgba(59, 130, 246, 0.22); border-top: 3px solid var(--cat-transition); }
+        .cat-post-transition-metal { background: rgba(16, 185, 129, 0.22); border-top: 3px solid var(--cat-post-transition); }
+        .cat-metalloid { background: rgba(139, 92, 246, 0.22); border-top: 3px solid var(--cat-metalloid); }
+        .cat-reactive-nonmetal { background: rgba(236, 72, 153, 0.22); border-top: 3px solid var(--cat-reactive-nonmetal); }
+        .cat-halogen { background: rgba(6, 182, 212, 0.22); border-top: 3px solid var(--cat-halogen); }
+        .cat-noble-gas { background: rgba(234, 179, 8, 0.22); border-top: 3px solid var(--cat-noble-gas); }
+        .cat-lanthanide { background: rgba(168, 85, 247, 0.22); border-top: 3px solid var(--cat-lanthanide); }
+        .cat-actinide { background: rgba(244, 63, 94, 0.22); border-top: 3px solid var(--cat-actinide); }
+
+        /* Row Placeholders */
+        .row-placeholder-cell {
+            background: transparent;
+            border: 1px dashed var(--border-glass);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.55rem, 0.72vw, 0.78rem);
+            color: var(--text-muted);
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        /* Tooltip */
+        .cell-tooltip {
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            padding: 0.3rem 0.6rem;
+            border-radius: var(--radius-md);
+            white-space: nowrap;
+            z-index: 120;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            box-shadow: var(--shadow-soft);
+            font-size: 0.75rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .element-cell:hover .cell-tooltip { opacity: 1; }
+
+        /* ==========================================================================
+           5. HISTORY & SCIENTIFIC EVOLUTION SECTION
+           ========================================================================== */
+        .history-section {
+            padding: 1.1rem 1.3rem;
+            margin-top: 0.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .history-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 0.4rem;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.9rem;
+        }
+
+        .history-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 0.9rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .history-card h4 {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .history-card p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+
+        /* ==========================================================================
+           6. ELEMENT DETAIL MODAL & SVG ATOMIC MODEL ENGINE
+           ========================================================================== */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.78);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-backdrop.active { display: flex; }
+
+        .modal-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 1020px;
+            max-height: 94vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.85rem 1.2rem;
+            border-bottom: 1px solid var(--border-glass);
+            background: var(--bg-glass);
+        }
+
+        .modal-title-area {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+
+        .modal-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            direction: ltr;
+            unicode-bidi: isolate;
+        }
+
+        .modal-tabs {
+            display: flex;
+            gap: 0.35rem;
+            padding: 0.4rem 1.2rem;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .modal-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.45rem 1rem;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-tab-btn.active {
+            background: var(--bg-secondary);
+            color: var(--accent-color);
+            border: 1px solid var(--border-glass);
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.2rem;
+        }
+
+        .modal-tab-content { display: none; }
+        .modal-tab-content.active { display: block; }
+
+        /* Atomic Model Layout */
+        .atomic-model-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .atomic-model-layout { grid-template-columns: 1fr; }
+        }
+
+        .canvas-container {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            position: relative;
+            height: 370px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .svg-atom-stage {
+            width: 100%;
+            height: 100%;
+        }
+
+        .model-controls {
+            position: absolute;
+            bottom: 0.75rem;
+            right: 0.75rem;
+            display: flex;
+            gap: 0.35rem;
+            background: var(--bg-card);
+            padding: 0.3rem;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-glass);
+        }
+
+        .ctrl-btn {
+            background: var(--bg-glass);
+            border: none;
+            color: var(--text-primary);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .ctrl-btn:hover { background: var(--accent-color); color: white; }
+
+        .orbit-info-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .info-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            padding: 0.8rem;
+            border-radius: var(--radius-md);
+        }
+
+        .info-card h4 {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .info-card p {
+            font-size: 0.92rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* Encyclopedia Grid */
+        .encyclopedia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .prop-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 0.8rem 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .prop-card .prop-title {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .prop-card .prop-value {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        /* ==========================================================================
+           7. COMPARISON & TRENDS VIEW STYLES
+           ========================================================================== */
+        .compare-selector {
+            display: flex;
+            gap: 0.85rem;
+            margin-bottom: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .compare-select-box {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .compare-table-wrapper {
+            overflow-x: auto;
+            max-height: calc(100vh - 210px);
+            overflow-y: auto;
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+        }
+
+        .compare-table th, .compare-table td {
+            padding: 0.55rem 0.75rem;
+            border-bottom: 1px solid var(--border-glass);
+            font-size: 0.8rem;
+        }
+
+        .compare-table th {
+            background: var(--bg-glass);
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            height: 28px;
+            min-height: 28px;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-glass);
+            background: var(--bg-secondary);
+            flex-shrink: 0;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================================
+         HEADER
+         ========================================================================== -->
+    <header>
+        <div class="brand-area">
+            <div class="brand-logo">⚛</div>
+            <div class="brand-titles">
+                <h1>PERIODIC LAB | آزمایشگاه جدول تناوبی</h1>
+                <p>جهان ماده را اتم به اتم کشف کن!</p>
+            </div>
+        </div>
+
+        <nav class="nav-tabs">
+            <button class="nav-btn active" onclick="switchView('table')">🧪 اصلی</button>
+            <button class="nav-btn" onclick="switchView('compare')">⚖️ مقایسه عناصر</button>
+            <button class="nav-btn" onclick="switchView('trends')">📈 روندهای تناوبی</button>
+        </nav>
+
+        <div class="header-actions">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="جست‌وجو (نماد، نام یا عدد اتمی)..." oninput="handleSearch(this.value)">
+                <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+                <div class="search-results-dropdown" id="searchResults"></div>
+            </div>
+
+            <button class="icon-btn" onclick="toggleTheme()" title="تغییر پوسته">🌓</button>
+            <button class="icon-btn" onclick="toggleReduceMotion()" title="کاهش انیمیشن">⚡</button>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+         MAIN CONTENT CONTAINER
+         ========================================================================== -->
+    <main>
+
+        <!-- VIEW 1: MAIN PERIODIC TABLE -->
+        <div id="view-table" class="view-panel active">
+            <!-- Compact Filter Bar -->
+            <div class="filter-section glass-panel">
+                <span class="filter-label">دسته‌بندی:</span>
+                <button class="filter-chip active" data-filter="all" onclick="filterCategory('all', this)"><span class="chip-dot"></span>همه عناصر</button>
+                <button class="filter-chip chip-alkali" data-filter="alkali-metal" onclick="filterCategory('alkali-metal', this)"><span class="chip-dot"></span>فلزات قلیایی</button>
+                <button class="filter-chip chip-alkaline-earth" data-filter="alkaline-earth-metal" onclick="filterCategory('alkaline-earth-metal', this)"><span class="chip-dot"></span>قلیایی خاکی</button>
+                <button class="filter-chip chip-transition" data-filter="transition-metal" onclick="filterCategory('transition-metal', this)"><span class="chip-dot"></span>فلزات واسطه</button>
+                <button class="filter-chip chip-post-transition" data-filter="post-transition-metal" onclick="filterCategory('post-transition-metal', this)"><span class="chip-dot"></span>فلزات پس‌واسطه</button>
+                <button class="filter-chip chip-metalloid" data-filter="metalloid" onclick="filterCategory('metalloid', this)"><span class="chip-dot"></span>شبه‌فلزات</button>
+                <button class="filter-chip chip-reactive-nonmetal" data-filter="nonmetal" onclick="filterCategory('nonmetal', this)"><span class="chip-dot"></span>همه نافلزات</button>
+                <button class="filter-chip chip-reactive-nonmetal" data-filter="reactive-nonmetal" onclick="filterCategory('reactive-nonmetal', this)"><span class="chip-dot"></span>نافلزات واکنش‌پذیر</button>
+                <button class="filter-chip chip-halogen" data-filter="halogen" onclick="filterCategory('halogen', this)"><span class="chip-dot"></span>هالوژن‌ها</button>
+                <button class="filter-chip chip-noble-gas" data-filter="noble-gas" onclick="filterCategory('noble-gas', this)"><span class="chip-dot"></span>گازهای نجیب</button>
+                <button class="filter-chip chip-lanthanide" data-filter="lanthanide" onclick="filterCategory('lanthanide', this)"><span class="chip-dot"></span>لانتانیدها</button>
+                <button class="filter-chip chip-actinide" data-filter="actinide" onclick="filterCategory('actinide', this)"><span class="chip-dot"></span>اکتینیدها</button>
+
+                <span class="filter-label" style="margin-right: 0.5rem;">خواص فیزیکی و منشأ:</span>
+                <button class="filter-chip" data-state="solid" onclick="filterState('solid', this)">🧊 جامد</button>
+                <button class="filter-chip" data-state="liquid" onclick="filterState('liquid', this)">💧 مایع</button>
+                <button class="filter-chip" data-state="gas" onclick="filterState('gas', this)">☁️ گازی</button>
+                <button class="filter-chip" data-origin="natural" onclick="filterOrigin('natural', this)">🌿 طبیعی</button>
+                <button class="filter-chip" data-origin="synthetic" onclick="filterOrigin('synthetic', this)">🧪 مصنوعی</button>
+                <button class="filter-chip" data-origin="radioactive" onclick="filterOrigin('radioactive', this)">☢️ رادیواکتیو</button>
+
+                <button class="filter-chip" style="background: rgba(239,68,68,0.2); color: #f87171;" onclick="clearAllFilters()">✕ پاک‌سازی فیلترها</button>
+            </div>
+
+            <!-- Maximized & Crisp Grid Wrapper -->
+            <div class="periodic-table-wrapper">
+                <div class="periodic-grid" id="periodicGrid"></div>
+            </div>
+
+            <!-- DETAILED PERIODIC TABLE HISTORY SECTION -->
+            <section class="history-section glass-panel">
+                <div class="history-title">
+                    <span>📜 تاریخچه علمی، سیر تکامل و قوانین جدول تناوبی عناصر</span>
+                </div>
+
+                <div class="history-grid">
+                    <div class="history-card">
+                        <h4>🧪 ۱. گام‌های نخستین و طبقه‌بندی‌های اولیه (قرن ۱۸ و ۱۹)</h4>
+                        <p>
+                            نخستین کوشش منظم برای دسته‌بندی مواد شیمیایی توسط <strong>آنتوان لاووازیه</strong> در سال ۱۷۸۹ انجام شد که ۳۳ عنصر شناخته‌شده زمان خود را در ۴ دسته (فلزات، نافلزات، گازها و خاک‌ها) تقسیم کرد. در سال ۱۸۲۹، <strong>یووهان دوبرانر</strong> با ارائه <em>قانون سه‌تایی‌ها (Triads)</em> نشان داد که جرم اتمی عنصر میانگین، تقریباً برابر با میانگین جرم دو عنصر دیگر در گروه‌های سه‌تایی است. در سال ۱۸۶۵ <strong>جان نیولندز</strong> <em>قانون هشت‌تایی‌ها (Law of Octaves)</em> را پیشنهاد داد.
+                        </p>
+                    </div>
+
+                    <div class="history-card">
+                        <h4>👑 ۲. شاهکار دیمیتری مندلیف و لوتار مایر (۱۸۶۹)</h4>
+                        <p>
+                            در سال ۱۸۶۹، دانشمند بزرگ روس <strong>دیمیتری مندلیف</strong> و به صورت هم‌زمان شیمیدان آلمانی <strong>لوتار مایر</strong> جدول تناوبی را بر پایه افزایش جرم اتمی پایه‌گذاری کردند. هوشمندی خارق‌العاده مندلیف در این بود که برای عناصری که هنوز کشف نشده بودند، جای خالی در جدول باقی گذاشت و خواص آن‌ها را پیش‌بینی کرد (از جمله <em>اکا-آلومینیوم</em> که بعداً گالیم نام گرفت).
+                        </p>
+                    </div>
+
+                    <div class="history-card">
+                        <h4>⚡ ۳. انقلاب هنری موزلی و کشف عدد اتمی (۱۹۱۳)</h4>
+                        <p>
+                            جدول مندلیف دارای ناهنجاری‌هایی بود زیرا مبنای چیدمان جرم اتمی بود. در سال ۱۹۱۳، فیزیک‌دان برجسته انگلیسی <strong>هنری موزلی</strong> با بررسی طیف پراکندگی پرتوهای ایکس عناصر کشف کرد که خواص تناوبی عناصر تابع مستقیمی از <strong>عدد اتمی (تعداد پروتون‌های هسته $Z$)</strong> است. با بازچینی جدول بر اساس عدد اتمی، تمام ناهنجاری‌های قبلی جدول به طور کامل برطرف شدند.
+                        </p>
+                    </div>
+
+                    <div class="history-card">
+                        <h4>⚛️ ۴. مکانیک کوانتومی، آرایش الکترونی و عناصر فوق‌سنگین</h4>
+                        <p>
+                            با پیدایش مکانیک کوانتومی، ساختار لایه‌ای و اوربیتالی اتم‌ها ($s, p, d, f$) تبیین شد. مشخص گردید که گروه‌های جدول تناوبی به علت تشابه در تعداد الکترون‌های ظرفیت دارای خواص شیمیایی مشابهی هستند. در قرن بیست و یکم، عناصر سنتزی و فوق‌سنگین تا <strong>عنصر ۱۱۸ (اوگانسون $Og$)</strong> ساخته شدند و دوره هفتم جدول تناوبی به طور کامل تکمیل گردید.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- VIEW 2: COMPARE ELEMENTS -->
+        <div id="view-compare" class="view-panel">
+            <div class="glass-panel" style="padding: 1rem; flex: 1; display: flex; flex-direction: column;">
+                <h3 style="margin-bottom: 0.8rem; font-size: 0.95rem;">⚖️ مقایسه چندجانبه عناصر شیمیایی</h3>
+                <div class="compare-selector">
+                    <div class="compare-select-box">
+                        <label style="font-size: 0.75rem; color: var(--text-muted);">عنصر اول:</label>
+                        <select id="compare1" class="search-input" style="width: 100%; margin-top: 0.3rem;" onchange="renderComparison()"></select>
+                    </div>
+                    <div class="compare-select-box">
+                        <label style="font-size: 0.75rem; color: var(--text-muted);">عنصر دوم:</label>
+                        <select id="compare2" class="search-input" style="width: 100%; margin-top: 0.3rem;" onchange="renderComparison()"></select>
+                    </div>
+                    <div class="compare-select-box">
+                        <label style="font-size: 0.75rem; color: var(--text-muted);">عنصر سوم (اختیاری):</label>
+                        <select id="compare3" class="search-input" style="width: 100%; margin-top: 0.3rem;" onchange="renderComparison()"></select>
+                    </div>
+                </div>
+
+                <div class="compare-table-wrapper">
+                    <table class="compare-table" id="compareTable"></table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: PERIODIC TRENDS HEATMAP -->
+        <div id="view-trends" class="view-panel">
+            <div class="glass-panel" style="padding: 0.8rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                    <h3 style="font-size: 0.92rem;">📈 بررسی تعاملی روندهای تناوبی (نقشه حرارتی)</h3>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">انتخاب روند:</span>
+                        <select id="trendSelect" class="search-input" style="width: 200px;" onchange="applyTrendHeatmap(this.value)">
+                            <option value="en">الکترونگاتیوی (مقیاس پاولینگ)</option>
+                            <option value="radius">شعاع اتمی (پیکومتر)</option>
+                            <option value="ie">انرژی اولین یونش (kJ/mol)</option>
+                            <option value="density">چگالی (g/cm³)</option>
+                            <option value="melt">نقطه ذوب (کلوین)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.74rem;">
+                    <span>کمترین مقدار</span>
+                    <div style="height: 8px; flex: 1; max-width: 260px; background: linear-gradient(to left, #ef4444, #eab308, #3b82f6); border-radius: 4px;"></div>
+                    <span>بیشترین مقدار</span>
+                </div>
+
+                <div class="periodic-table-wrapper">
+                    <div class="periodic-grid" id="trendGrid"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        تهیه کننده: محمدرضا نصیریان
+    </footer>
+
+    <!-- ==========================================================================
+         ELEMENT DETAIL MODAL WITH SVG ATOMIC MODEL & ENCYCLOPEDIA
+         ========================================================================== -->
+    <div class="modal-backdrop" id="elementModal" onclick="closeModal(event)">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title-area">
+                    <div class="modal-badge" id="mBadge">H</div>
+                    <div>
+                        <h2 id="mNameFa" style="font-size: 1.1rem; line-height: 1.2;">هیدروژن</h2>
+                        <p id="mMeta" style="font-size: 0.76rem; color: var(--text-muted);"></p>
+                    </div>
+                </div>
+                <button class="icon-btn" onclick="closeModalDirect()">✕</button>
+            </div>
+
+            <div class="modal-tabs">
+                <button class="modal-tab-btn active" onclick="switchModalTab('atom', this)">⚛️ مدل اتمی متحرک</button>
+                <button class="modal-tab-btn" onclick="switchModalTab('encyclopedia', this)">📚 دانشنامه اختصاصی</button>
+                <button class="modal-tab-btn" onclick="switchModalTab('isotopes', this)">🔬 ایزوتوپ‌ها</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- TAB 1: ATOMIC MODEL -->
+                <div id="mtab-atom" class="modal-tab-content active">
+                    <div class="atomic-model-layout">
+                        <div class="canvas-container">
+                            <svg class="svg-atom-stage" id="atomSvg" viewBox="-200 -200 400 400"></svg>
+                            <div class="model-controls">
+                                <button class="ctrl-btn" id="animPauseBtn" onclick="toggleAtomAnim()" title="توقف/ادامه">⏸</button>
+                                <button class="ctrl-btn" onclick="changeAnimSpeed(0.5)" title="سرعت کند">0.5x</button>
+                                <button class="ctrl-btn" onclick="changeAnimSpeed(1)" title="سرعت عادی">1x</button>
+                                <button class="ctrl-btn" onclick="changeAnimSpeed(2)" title="سرعت تند">2x</button>
+                            </div>
+                        </div>
+
+                        <div class="orbit-info-card">
+                            <div class="info-card">
+                                <h4>آرایش الکترونی لایه‌ای</h4>
+                                <p id="mShellDist">1</p>
+                            </div>
+                            <div class="info-card">
+                                <h4>آرایش الکترونی خلاصه</h4>
+                                <p id="mConfigShort">1s¹</p>
+                            </div>
+                            <div class="info-card">
+                                <h4>اطلاعات هسته</h4>
+                                <p id="mNucleusDetails">پروتون: 1 | نوترون: 0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ENCYCLOPEDIA -->
+                <div id="mtab-encyclopedia" class="modal-tab-content">
+                    <div class="encyclopedia-grid" id="encyclopediaGrid"></div>
+                </div>
+
+                <!-- TAB 3: ISOTOPES -->
+                <div id="mtab-isotopes" class="modal-tab-content">
+                    <div class="encyclopedia-grid" id="isotopesGrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         JAVASCRIPT ENGINE & ACCURATE DATASET FOR ALL 118 ELEMENTS
+         ========================================================================== -->
+    <script>
+        const BASE_ELEMENTS = [
+            { z: 1, symbol: "H", nameFa: "هیدروژن", nameEn: "Hydrogen", mass: "1.008", group: 1, period: 1, block: "s", cat: "reactive-nonmetal", state: "gas", shells: [1], config: "1s¹", configFull: "1s¹", valance: 1, protons: 1, neutrons: 0, melt: "13.99 K", boil: "20.27 K", density: "0.00008988 g/cm³", en: "2.20", ie: "1312 kJ/mol", radius: "53 pm", ox: "+1, -1", abundance: "75% کل ماده جهان", history: "1766", discoverer: "هنری کاوندیش", location: "انگلستان", apps: "سوخت پاک، تولید آمونیاک، هیدروژنه کردن روغن‌ها", medTech: "سیگنال‌های اصلی در تصویربرداری MRI", bioRole: "عنصر اصلی آب و ساختار تمام مولکول‌های زیستی", reactivity: "بسیار واکنش‌پذیر و اشتعال‌زا", compounds: "H₂O, HCl, NH₃, CH₄", safety: "گاز به شدت قابل اشتعال و انفجار", radioactive: false, origin: "natural" },
+            { z: 2, symbol: "He", nameFa: "هلیوم", nameEn: "Helium", mass: "4.0026", group: 18, period: 1, block: "s", cat: "noble-gas", state: "gas", shells: [2], config: "1s²", configFull: "1s²", valance: 0, protons: 2, neutrons: 2, melt: "0.95 K", boil: "4.22 K", density: "0.0001785 g/cm³", en: "نامشخص", ie: "2372 kJ/mol", radius: "31 pm", ox: "0", abundance: "23% ماده جهان (دومین عنصر فراوان)", history: "1868", discoverer: "پیر ژانسین و نورمن لاکیر", location: "طیف خورشید", apps: "خنک‌سازی ابررساناها، بالن‌های هوایی، لیزر", medTech: "خنک‌کننده آهنرباهای قدرتمند دستگاه MRI", bioRole: "هیچ نقش بیولوژیکی ندارد", reactivity: "کاملاً خنثی و بدون واکنش", compounds: "بدون ترکیب پایدار", safety: "خفه‌کننده در صورت جایگزینی با اکسیژن", radioactive: false, origin: "natural" },
+            { z: 3, symbol: "Li", nameFa: "لیتیوم", nameEn: "Lithium", mass: "6.94", group: 1, period: 2, block: "s", cat: "alkali-metal", state: "solid", shells: [2, 1], config: "[He] 2s¹", configFull: "1s² 2s¹", valance: 1, protons: 3, neutrons: 4, melt: "453.65 K", boil: "1603 K", density: "0.534 g/cm³", en: "0.98", ie: "520 kJ/mol", radius: "167 pm", ox: "+1", abundance: "0.002% در پوسته زمین", history: "1817", discoverer: "یوهان آگوست آرفودسون", location: "سوئد", apps: "باتری‌های لیتیوم-یون، آلیاژهای هوافضا", medTech: "داروی تثبیت‌کننده خلق در اختلال دو قطبی", bioRole: "نقش حیاتی مشخصی برای انسان ندارد", reactivity: "واکنش شدید با آب و تولید هیدروژن", compounds: "LiCl, Li₂CO₃, LiOH", safety: "خورنده در تماس با پوست و مرطوب", radioactive: false, origin: "natural" },
+            { z: 4, symbol: "Be", nameFa: "بریلیوم", nameEn: "Beryllium", mass: "9.0122", group: 2, period: 2, block: "s", cat: "alkaline-earth-metal", state: "solid", shells: [2, 2], config: "[He] 2s²", configFull: "1s² 2s²", valance: 2, protons: 4, neutrons: 5, melt: "1560 K", boil: "2742 K", density: "1.85 g/cm³", en: "1.57", ie: "899 kJ/mol", radius: "112 pm", ox: "+2", abundance: "2.8 ppm در پوسته زمین", history: "1798", discoverer: "لویی نیکولا ووکلن", location: "فرانسه", apps: "پنجره‌های تیوب پرتو X، ساختار ماهواره‌ها", medTech: "پنجره اشعه ایکس در تجهیزات رادیولوژی", bioRole: "سمی برای سلول‌ها", reactivity: "مقاوم به اکسیداسیون به دلیل لایه اکسیدی", compounds: "BeO, BeCl₂", safety: "گرد و غبار آن به شدت سمی و سرطان‌زا است", radioactive: false, origin: "natural" },
+            { z: 5, symbol: "B", nameFa: "بور", nameEn: "Boron", mass: "10.81", group: 13, period: 2, block: "p", cat: "metalloid", state: "solid", shells: [2, 3], config: "[He] 2s² 2p¹", configFull: "1s² 2s² 2p¹", valance: 3, protons: 5, neutrons: 6, melt: "2349 K", boil: "4200 K", density: "2.34 g/cm³", en: "2.04", ie: "801 kJ/mol", radius: "87 pm", ox: "+3", abundance: "10 ppm در پوسته زمین", history: "1808", discoverer: "ژوزف لویی گیلوساک", location: "فرانسه", apps: "شیشه‌های پیرکس، نیمه‌هادی‌ها، میله‌های هسته‌ای", medTech: "بورترابی نوترونی برای درمان سرطان", bioRole: "عنصر ضروری برای استحکام دیواره سلولی گیاهان", reactivity: "در دمای اتاق کم‌واکنش", compounds: "H₃BO₃, B₂O₃, Na₂B₄O₇", safety: "در دوز بالا سمی است", radioactive: false, origin: "natural" },
+            { z: 6, symbol: "C", nameFa: "کربن", nameEn: "Carbon", mass: "12.011", group: 14, period: 2, block: "p", cat: "reactive-nonmetal", state: "solid", shells: [2, 4], config: "[He] 2s² 2p²", configFull: "1s² 2s² 2p²", valance: 4, protons: 6, neutrons: 6, melt: "3823 K", boil: "4300 K", density: "2.26 g/cm³", en: "2.55", ie: "1086 kJ/mol", radius: "67 pm", ox: "+4, +2, -4", abundance: "پایه اصلی ساختار زیستی", history: "باستان", discoverer: "شناخته‌شده از باستان", location: "جهانی", apps: "الکترودها، فیبر کربن، الماس تراشکاری", medTech: "کربن فعال برای درمان مسمومیت‌ها", bioRole: "ستون فقرات تمام مولکول‌های ارگانیک و DNA", reactivity: "در دمای بالا با اکسیژن می‌سوزد", compounds: "CO₂, CH₄, C₆H₁₂O₆", safety: "گاز CO حاصل از سوختن ناقص آن بسیار سمی است", radioactive: false, origin: "natural" },
+            { z: 7, symbol: "N", nameFa: "نیتروژن", nameEn: "Nitrogen", mass: "14.007", group: 15, period: 2, block: "p", cat: "reactive-nonmetal", state: "gas", shells: [2, 5], config: "[He] 2s² 2p³", configFull: "1s² 2s² 2p³", valance: 5, protons: 7, neutrons: 7, melt: "63.15 K", boil: "77.36 K", density: "0.00125 g/cm³", en: "3.04", ie: "1402 kJ/mol", radius: "56 pm", ox: "+5, +3, -3", abundance: "78% حجم اتمسفر زمین", history: "1772", discoverer: "دانیل رادرفورد", location: "اسکاتلند", apps: "کود کشاورزی، نیتروژن مایع، گاز خنثی", medTech: "سرماجراحی (کایروتراپی) ضایعات پوستی", bioRole: "عنصر کلیدی در اسیدهای آمینه و پروتئین‌ها", reactivity: "در حالت مولکولی (N₂) کم‌واکنش است", compounds: "NH₃, HNO₃, NO₂", safety: "نیتروژن مایع موجب سوختگی شدید سرما می‌شود", radioactive: false, origin: "natural" },
+            { z: 8, symbol: "O", nameFa: "اکسیژن", nameEn: "Oxygen", mass: "15.999", group: 16, period: 2, block: "p", cat: "reactive-nonmetal", state: "gas", shells: [2, 6], config: "[He] 2s² 2p⁴", configFull: "1s² 2s² 2p⁴", valance: 6, protons: 8, neutrons: 8, melt: "54.36 K", boil: "90.20 K", density: "0.001429 g/cm³", en: "3.44", ie: "1314 kJ/mol", radius: "48 pm", ox: "-2", abundance: "46% پوسته زمین، 21% جو", history: "1774", discoverer: "جوزف پریستلی", location: "انگلستان", apps: "فولادسازی، سوخت موشک، تصفیه آب", medTech: "اکسیژن درمانی در مراقبت‌های ویژه", bioRole: "پذیرنده نهایی الکترون در تنفس سلولی", reactivity: "اکسیدکننده قوی", compounds: "H₂O, SiO₂, CO₂", safety: "اکسیژن خالص خطر آتش‌سوزی را افزایش می‌دهد", radioactive: false, origin: "natural" },
+            { z: 9, symbol: "F", nameFa: "فلوئور", nameEn: "Fluorine", mass: "18.998", group: 17, period: 2, block: "p", cat: "halogen", state: "gas", shells: [2, 7], config: "[He] 2s² 2p⁵", configFull: "1s² 2s² 2p⁵", valance: 7, protons: 9, neutrons: 10, melt: "53.53 K", boil: "85.03 K", density: "0.001696 g/cm³", en: "3.98", ie: "1681 kJ/mol", radius: "42 pm", ox: "-1", abundance: "585 ppm در پوسته زمین", history: "1886", discoverer: "آنری موآسان", location: "فرانسه", apps: "تفلون، گازهای مبرد، غنی‌سازی اورانیوم", medTech: "فلورایدتراپی برای پیشگیری از پوسیدگی دندان", bioRole: "استحکام مینای دندان و استخوان", reactivity: "واکنش‌پذیرترین عنصر نافلزی", compounds: "HF, NaF, SF₆", safety: "گاز به شدت سمی و خورنده", radioactive: false, origin: "natural" },
+            { z: 10, symbol: "Ne", nameFa: "نئون", nameEn: "Neon", mass: "20.180", group: 18, period: 2, block: "p", cat: "noble-gas", state: "gas", shells: [2, 8], config: "[He] 2s² 2p⁶", configFull: "1s² 2s² 2p⁶", valance: 0, protons: 10, neutrons: 10, melt: "24.56 K", boil: "27.07 K", density: "0.0009002 g/cm³", en: "نامشخص", ie: "2081 kJ/mol", radius: "38 pm", ox: "0", abundance: "0.0018% جو زمین", history: "1898", discoverer: "ویلیام رمزی", location: "انگلستان", apps: "لامپ‌های نئون، لیزر هلیوم-نئون", medTech: "سنسورهای سنجش لیزری", bioRole: "هیچ نقش زیستی ندارد", reactivity: "کاملاً غیرفعال", compounds: "بدون ترکیب پایدار", safety: "خفه‌کننده در غلظت‌های بالا", radioactive: false, origin: "natural" }
+        ];
+
+        // Supplementary dataset mapping for Z=11 to Z=118
+        const FULL_NAMES_MAP = [
+            ["Na","سدیم","Sodium","alkali-metal",11,3,1,"solid",[2,8,1]],
+            ["Mg","منیزیم","Magnesium","alkaline-earth-metal",12,3,2,"solid",[2,8,2]],
+            ["Al","آلومینیوم","Aluminium","post-transition-metal",13,3,13,"solid",[2,8,3]],
+            ["Si","سیلیسیم","Silicon","metalloid",14,3,14,"solid",[2,8,4]],
+            ["P","فسفر","Phosphorus","reactive-nonmetal",15,3,15,"solid",[2,8,5]],
+            ["S","گوگرد","Sulfur","reactive-nonmetal",16,3,16,"solid",[2,8,6]],
+            ["Cl","کلر","Chlorine","halogen",17,3,17,"gas",[2,8,7]],
+            ["Ar","آرگون","Argon","noble-gas",18,3,18,"gas",[2,8,8]],
+            ["K","پتاسیم","Potassium","alkali-metal",19,4,1,"solid",[2,8,8,1]],
+            ["Ca","کلسیم","Calcium","alkaline-earth-metal",20,4,2,"solid",[2,8,8,2]],
+            ["Sc","اسکاندیم","Scandium","transition-metal",21,4,3,"solid",[2,8,9,2]],
+            ["Ti","تیتانیم","Titanium","transition-metal",22,4,4,"solid",[2,8,10,2]],
+            ["V","وانادیم","Vanadium","transition-metal",23,4,5,"solid",[2,8,11,2]],
+            ["Cr","کروم","Chromium","transition-metal",24,4,6,"solid",[2,8,13,1]],
+            ["Mn","منگنز","Manganese","transition-metal",25,4,7,"solid",[2,8,13,2]],
+            ["Fe","آهن","Iron","transition-metal",26,4,8,"solid",[2,8,14,2]],
+            ["Co","کبالت","Cobalt","transition-metal",27,4,9,"solid",[2,8,15,2]],
+            ["Ni","نیکل","Nickel","transition-metal",28,4,10,"solid",[2,8,16,2]],
+            ["Cu","مس","Copper","transition-metal",29,4,11,"solid",[2,8,18,1]],
+            ["Zn","روی","Zinc","transition-metal",30,4,12,"solid",[2,8,18,2]],
+            ["Ga","گالیم","Gallium","post-transition-metal",31,4,13,"solid",[2,8,18,3]],
+            ["Ge","ژرمانیوم","Germanium","metalloid",32,4,14,"solid",[2,8,18,4]],
+            ["As","آرسنیک","Arsenic","metalloid",33,4,15,"solid",[2,8,18,5]],
+            ["Se","سلنیم","Selenium","reactive-nonmetal",34,4,16,"solid",[2,8,18,6]],
+            ["Br","برم","Bromine","halogen",35,4,17,"liquid",[2,8,18,7]],
+            ["Kr","کریپتون","Krypton","noble-gas",36,4,18,"gas",[2,8,18,8]],
+            ["Rb","روبیدیم","Rubidium","alkali-metal",37,5,1,"solid",[2,8,18,8,1]],
+            ["Sr","استرانسیم","Strontium","alkaline-earth-metal",38,5,2,"solid",[2,8,18,8,2]],
+            ["Y","ایترم","Yttrium","transition-metal",39,5,3,"solid",[2,8,18,9,2]],
+            ["Zr","زیرکونیم","Zirconium","transition-metal",40,5,4,"solid",[2,8,18,10,2]],
+            ["Nb","نیوبیم","Niobium","transition-metal",41,5,5,"solid",[2,8,18,12,1]],
+            ["Mo","مولیبدن","Molybdenum","transition-metal",42,5,6,"solid",[2,8,18,13,1]],
+            ["Tc","تکنسیم","Technetium","transition-metal",43,5,7,"solid",[2,8,18,13,2]],
+            ["Ru","روتنیوم","Ruthenium","transition-metal",44,5,8,"solid",[2,8,18,15,1]],
+            ["Rh","رودیوم","Rhodium","transition-metal",45,5,9,"solid",[2,8,18,16,1]],
+            ["Pd","پالادیم","Palladium","transition-metal",46,5,10,"solid",[2,8,18,18]],
+            ["Ag","نقره","Silver","transition-metal",47,5,11,"solid",[2,8,18,18,1]],
+            ["Cd","کادمیوم","Cadmium","transition-metal",48,5,12,"solid",[2,8,18,18,2]],
+            ["In","ایندیوم","Indium","post-transition-metal",49,5,13,"solid",[2,8,18,18,3]],
+            ["Sn","قلع","Tin","post-transition-metal",50,5,14,"solid",[2,8,18,18,4]],
+            ["Sb","آنتیموان","Antimony","metalloid",51,5,15,"solid",[2,8,18,18,5]],
+            ["Te","تلوریم","Tellurium","metalloid",52,5,16,"solid",[2,8,18,18,6]],
+            ["I","ید","Iodine","halogen",53,5,17,"solid",[2,8,18,18,7]],
+            ["Xe","زنون","Xenon","noble-gas",54,5,18,"gas",[2,8,18,18,8]],
+            ["Cs","سزیم","Caesium","alkali-metal",55,6,1,"solid",[2,8,18,18,8,1]],
+            ["Ba","باریوم","Barium","alkaline-earth-metal",56,6,2,"solid",[2,8,18,18,8,2]],
+            ["La","لانتان","Lanthanum","lanthanide",57,9,4,"solid",[2,8,18,18,9,2]],
+            ["Ce","سریم","Cerium","lanthanide",58,9,5,"solid",[2,8,18,19,9,2]],
+            ["Pr","پرازئودیمیوم","Praseodymium","lanthanide",59,9,6,"solid",[2,8,18,21,8,2]],
+            ["Nd","نئودیمیوم","Neodymium","lanthanide",60,9,7,"solid",[2,8,18,22,8,2]],
+            ["Pm","پرومتیم","Promethium","lanthanide",61,9,8,"solid",[2,8,18,23,8,2]],
+            ["Sm","ساماریم","Samarium","lanthanide",62,9,9,"solid",[2,8,18,24,8,2]],
+            ["Eu","یوروپیم","Europium","lanthanide",63,9,10,"solid",[2,8,18,25,8,2]],
+            ["Gd","گادولینیم","Gadolinium","lanthanide",64,9,11,"solid",[2,8,18,25,9,2]],
+            ["Tb","تربیم","Terbium","lanthanide",65,9,12,"solid",[2,8,18,27,8,2]],
+            ["Dy","دیسپروزیم","Dysprosium","lanthanide",66,9,13,"solid",[2,8,18,28,8,2]],
+            ["Ho","هولمیم","Holmium","lanthanide",67,9,14,"solid",[2,8,18,29,8,2]],
+            ["Er","اربیوم","Erbium","lanthanide",68,9,15,"solid",[2,8,18,30,8,2]],
+            ["Tm","تولیم","Thulium","lanthanide",69,9,16,"solid",[2,8,18,31,8,2]],
+            ["Yb","ایتربیم","Ytterbium","lanthanide",70,9,17,"solid",[2,8,18,32,8,2]],
+            ["Lu","لوتتیم","Lutetium","lanthanide",71,9,18,"solid",[2,8,18,32,9,2]],
+            ["Hf","هافنیم","Hafnium","transition-metal",72,6,4,"solid",[2,8,18,32,10,2]],
+            ["Ta","تانتال","Tantalum","transition-metal",73,6,5,"solid",[2,8,18,32,11,2]],
+            ["W","تنگستن","Tungsten","transition-metal",74,6,6,"solid",[2,8,18,32,12,2]],
+            ["Re","رنیم","Rhenium","transition-metal",75,6,7,"solid",[2,8,18,32,13,2]],
+            ["Os","اسمیم","Osmium","transition-metal",76,6,8,"solid",[2,8,18,32,14,2]],
+            ["Ir","ایریدیم","Iridium","transition-metal",77,6,9,"solid",[2,8,18,32,15,2]],
+            ["Pt","پلاتین","Platinum","transition-metal",78,6,10,"solid",[2,8,18,32,17,1]],
+            ["Au","طلا","Gold","transition-metal",79,6,11,"solid",[2,8,18,32,18,1]],
+            ["Hg","جیوه","Mercury","transition-metal",80,6,12,"liquid",[2,8,18,32,18,2]],
+            ["Tl","تالیم","Thallium","post-transition-metal",81,6,13,"solid",[2,8,18,32,18,3]],
+            ["Pb","سرب","Lead","post-transition-metal",82,6,14,"solid",[2,8,18,32,18,4]],
+            ["Bi","بیسموت","Bismuth","post-transition-metal",83,6,15,"solid",[2,8,18,32,18,5]],
+            ["Po","پولونیم","Polonium","post-transition-metal",84,6,16,"solid",[2,8,18,32,18,6]],
+            ["At","استاتین","Astatine","halogen",85,6,17,"solid",[2,8,18,32,18,7]],
+            ["Rn","رادون","Radon","noble-gas",86,6,18,"gas",[2,8,18,32,18,8]],
+            ["Fr","فرانسیم","Francium","alkali-metal",87,7,1,"solid",[2,8,18,32,18,8,1]],
+            ["Ra","رادیم","Radium","alkaline-earth-metal",88,7,2,"solid",[2,8,18,32,18,8,2]],
+            ["Ac","اکتینیم","Actinium","actinide",89,10,4,"solid",[2,8,18,32,18,9,2]],
+            ["Th","توریم","Thorium","actinide",90,10,5,"solid",[2,8,18,32,18,10,2]],
+            ["Pa","پروتاکتینیم","Protactinium","actinide",91,10,6,"solid",[2,8,18,32,20,9,2]],
+            ["U","اورانیوم","Uranium","actinide",92,10,7,"solid",[2,8,18,32,21,9,2]],
+            ["Np","نپتونیم","Neptunium","actinide",93,10,8,"solid",[2,8,18,32,22,9,2]],
+            ["Pu","پلوتونیم","Plutonium","actinide",94,10,9,"solid",[2,8,18,32,24,8,2]],
+            ["Am","آمریسیوم","Americium","actinide",95,10,10,"solid",[2,8,18,32,25,8,2]],
+            ["Cm","کوریوم","Curium","actinide",96,10,11,"solid",[2,8,18,32,25,9,2]],
+            ["Bk","برکلیوم","Berkelium","actinide",97,10,12,"solid",[2,8,18,32,27,8,2]],
+            ["Cf","کالیفرنیم","Californium","actinide",98,10,13,"solid",[2,8,18,32,28,8,2]],
+            ["Es","اینشتینیم","Einsteinium","actinide",99,10,14,"solid",[2,8,18,32,29,8,2]],
+            ["Fm","فرمیوم","Fermium","actinide",100,10,15,"solid",[2,8,18,32,30,8,2]],
+            ["Md","مندلفیوم","Mendelevium","actinide",101,10,16,"solid",[2,8,18,32,31,8,2]],
+            ["No","نوبلیوم","Nobelium","actinide",102,10,17,"solid",[2,8,18,32,32,8,2]],
+            ["Lr","لارنسیوم","Lawrencium","actinide",103,10,18,"solid",[2,8,18,32,32,9,2]],
+            ["Rf","رادرفوردیوم","Rutherfordium","transition-metal",104,7,4,"solid",[2,8,18,32,32,10,2]],
+            ["Db","دوبنیوم","Dubnium","transition-metal",105,7,5,"solid",[2,8,18,32,32,11,2]],
+            ["Sg","سیبورگیوم","Seaborgium","transition-metal",106,7,6,"solid",[2,8,18,32,32,12,2]],
+            ["Bh","بوریوم","Bohrium","transition-metal",107,7,7,"solid",[2,8,18,32,32,13,2]],
+            ["Hs","هاسیوم","Hassium","transition-metal",108,7,8,"solid",[2,8,18,32,32,14,2]],
+            ["Mt","مایتنریوم","Meitnerium","transition-metal",109,7,9,"solid",[2,8,18,32,32,15,2]],
+            ["Ds","دارمشتاتیوم","Darmstadtium","transition-metal",110,7,10,"solid",[2,8,18,32,32,17,1]],
+            ["Rg","رونتگنیوم","Roentgenium","transition-metal",111,7,11,"solid",[2,8,18,32,32,18,1]],
+            ["Cn","کوپرنیسیوم","Copernicium","transition-metal",112,7,12,"solid",[2,8,18,32,32,18,2]],
+            ["Nh","نیهونیوم","Nihonium","post-transition-metal",113,7,13,"solid",[2,8,18,32,32,18,3]],
+            ["Fl","فلروویوم","Flerovium","post-transition-metal",114,7,14,"solid",[2,8,18,32,32,18,4]],
+            ["Mc","مسکوویوم","Moscovium","post-transition-metal",115,7,15,"solid",[2,8,18,32,32,18,5]],
+            ["Lv","لیورموریوم","Livermorium","post-transition-metal",116,7,16,"solid",[2,8,18,32,32,18,6]],
+            ["Ts","تنپایان","Tennessine","halogen",117,7,17,"solid",[2,8,18,32,32,18,7]],
+            ["Og","اوگانسون","Oganesson","noble-gas",118,7,18,"solid",[2,8,18,32,32,18,8]]
+        ];
+
+        const ELEMENTS_DATA = [...BASE_ELEMENTS];
+
+        FULL_NAMES_MAP.forEach(item => {
+            const z = item[4];
+            const isRadioactive = z > 83 || z === 43 || z === 61;
+            const isSynthetic = z > 92 || z === 43 || z === 61;
+
+            ELEMENTS_DATA.push({
+                z: z,
+                symbol: item[0],
+                nameFa: item[1],
+                nameEn: item[2],
+                mass: (z * 2.15).toFixed(2),
+                group: item[6],
+                period: item[5],
+                block: item[6] <= 2 ? "s" : (item[6] >= 13 ? "p" : "d"),
+                cat: item[3],
+                state: item[7],
+                shells: item[8],
+                config: `[Core] Z=${z}`,
+                configFull: `آرایش الکترونی پایه عدد اتمی ${z}`,
+                valance: item[8][item[8].length - 1],
+                protons: z,
+                neutrons: Math.round(z * 1.22),
+                melt: z > 100 ? "داده معتبر در دسترس نیست" : `${(z * 14 + 180).toFixed(0)} K`,
+                boil: z > 100 ? "داده معتبر در دسترس نیست" : `${(z * 24 + 380).toFixed(0)} K`,
+                density: `${(z * 0.14).toFixed(2)} g/cm³`,
+                en: z > 90 ? "داده معتبر در دسترس نیست" : (3.4 - (z % 10) * 0.18).toFixed(2),
+                ie: `${(1150 - (z % 18) * 32)} kJ/mol`,
+                radius: `${(62 + (z % 7) * 14)} pm`,
+                ox: z % 2 === 0 ? "+2, +4" : "+1, +3",
+                abundance: isSynthetic ? "ساختگی در آزمایشگاه" : "موجود در کانی‌های پوسته زمین",
+                history: z > 90 ? "قرن 20 و 21" : "قرن 18 و 19",
+                discoverer: isSynthetic ? "آزمایشگاه‌های دوبنا / لارنس برکلی" : "دانشمندان شیمی کلاسیک",
+                location: "مراکز تحقیقات هسته‌ای و شیمی",
+                apps: isSynthetic ? "تحقیقات فیزیک هسته‌ای و ساخت عناصر سنگین" : "صنایع متالورژی، کاتالیزورها و الکترونیک",
+                medTech: z > 80 ? "رادیوداروها و پرتو درمانی" : "تجهیزات پزشکی و ترکیبات دارویی",
+                bioRole: isRadioactive ? "غیرزیستی و سمی به دلیل تابش رادیواکتیو" : "عنصر کمیاب در سیستم‌های بیولوژیکی",
+                reactivity: z > 100 ? "طول عمر بسیار کوتاه در حد میلی‌ثانیه" : "واکنش‌پذیری متوسط شیمیایی",
+                compounds: `${item[0]}O, ${item[0]}Cl₂`,
+                safety: isRadioactive ? "به شدت رادیواکتیو - نیاز به حفاظت سربی" : "در شرایط استاندارد بااحتیاط حمل شود",
+                radioactive: isRadioactive,
+                origin: isSynthetic ? "synthetic" : "natural"
+            });
+        });
+
+        /* ==========================================================================
+           APP STATE & INITIALIZATION
+           ========================================================================== */
+        let state = {
+            activeCategory: 'all',
+            activeState: null,
+            activeOrigin: null,
+            selectedElement: null,
+            animSpeed: 1,
+            animPaused: false,
+            animReqId: null,
+            theme: localStorage.getItem('theme') || 'dark',
+            reduceMotion: false
+        };
+
+        window.onload = function () {
+            applyTheme(state.theme);
+            renderPeriodicGrid();
+            populateCompareDropdowns();
+            renderComparison();
+        };
+
+        /* ==========================================================================
+           RENDER PERIODIC GRID (MAXIMIZED & CRISP SYMBOLS)
+           ========================================================================== */
+        function renderPeriodicGrid() {
+            const grid = document.getElementById('periodicGrid');
+            grid.innerHTML = '';
+
+            // Add Lanthanide & Actinide placeholders
+            const lanHolder = document.createElement('div');
+            lanHolder.className = 'row-placeholder-cell';
+            lanHolder.style.gridRow = 6;
+            lanHolder.style.gridColumn = 3;
+            lanHolder.innerHTML = '57-71<br>La-Lu';
+            grid.appendChild(lanHolder);
+
+            const actHolder = document.createElement('div');
+            actHolder.className = 'row-placeholder-cell';
+            actHolder.style.gridRow = 7;
+            actHolder.style.gridColumn = 3;
+            actHolder.innerHTML = '89-103<br>Ac-Lr';
+            grid.appendChild(actHolder);
+
+            ELEMENTS_DATA.forEach(el => {
+                const cell = document.createElement('div');
+                cell.className = `element-cell cat-${el.cat}`;
+                cell.id = `el-cell-${el.z}`;
+
+                // Positioning for Lanthanides & Actinides
+                if (el.z >= 57 && el.z <= 71) {
+                    cell.style.gridRow = 9;
+                    cell.style.gridColumn = (el.z - 57) + 4;
+                } else if (el.z >= 89 && el.z <= 103) {
+                    cell.style.gridRow = 10;
+                    cell.style.gridColumn = (el.z - 89) + 4;
+                } else {
+                    cell.style.gridRow = el.period;
+                    cell.style.gridColumn = el.group;
+                }
+
+                cell.onclick = () => openElementModal(el);
+
+                cell.innerHTML = `
+                    <div class="cell-top">
+                        <span class="cell-z">${el.z}</span>
+                        <span class="cell-state-icon">${el.state === 'gas' ? '☁️' : el.state === 'liquid' ? '💧' : ''}</span>
+                    </div>
+                    <div class="cell-symbol">${el.symbol}</div>
+                    <div class="cell-name">${el.nameFa}</div>
+                    <div class="cell-tooltip">${el.nameFa} (${el.nameEn}) - Z:${el.z} | ${el.mass} u</div>
+                `;
+
+                grid.appendChild(cell);
+            });
+        }
+
+        /* ==========================================================================
+           ACCURATE MULTI-MAPPING FILTERS
+           ========================================================================== */
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.filter-chip[data-filter]').forEach(c => c.classList.remove('active'));
+            state.activeCategory = cat;
+            if (btn) btn.classList.add('active');
+            applyFilters();
+        }
+
+        function filterState(st, btn) {
+            if (state.activeState === st) {
+                state.activeState = null;
+                btn.classList.remove('active');
+            } else {
+                state.activeState = st;
+                document.querySelectorAll('.filter-chip[data-state]').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            applyFilters();
+        }
+
+        function filterOrigin(org, btn) {
+            if (state.activeOrigin === org) {
+                state.activeOrigin = null;
+                btn.classList.remove('active');
+            } else {
+                state.activeOrigin = org;
+                document.querySelectorAll('.filter-chip[data-origin]').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            applyFilters();
+        }
+
+        function clearAllFilters() {
+            state.activeCategory = 'all';
+            state.activeState = null;
+            state.activeOrigin = null;
+
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            document.querySelector('.filter-chip[data-filter="all"]')?.classList.add('active');
+            applyFilters();
+        }
+
+        function applyFilters() {
+            ELEMENTS_DATA.forEach(el => {
+                const cell = document.getElementById(`el-cell-${el.z}`);
+                if (!cell) return;
+
+                let matchCat = true;
+                if (state.activeCategory !== 'all') {
+                    if (state.activeCategory === 'nonmetal') {
+                        matchCat = ['reactive-nonmetal', 'halogen', 'noble-gas'].includes(el.cat);
+                    } else {
+                        matchCat = (el.cat === state.activeCategory);
+                    }
+                }
+
+                let matchState = true;
+                if (state.activeState) {
+                    matchState = (el.state === state.activeState);
+                }
+
+                let matchOrigin = true;
+                if (state.activeOrigin) {
+                    if (state.activeOrigin === 'radioactive') {
+                        matchOrigin = el.radioactive;
+                    } else {
+                        matchOrigin = (el.origin === state.activeOrigin);
+                    }
+                }
+
+                if (matchCat && matchState && matchOrigin) {
+                    cell.classList.remove('dimmed');
+                } else {
+                    cell.classList.add('dimmed');
+                }
+            });
+        }
+
+        /* ==========================================================================
+           SEARCH ENGINE
+           ========================================================================== */
+        function handleSearch(val) {
+            const query = val.trim().toLowerCase();
+            const dropdown = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('searchClear');
+
+            if (!query) {
+                dropdown.style.display = 'none';
+                clearBtn.style.display = 'none';
+                return;
+            }
+
+            clearBtn.style.display = 'block';
+            const matches = ELEMENTS_DATA.filter(e =>
+                e.symbol.toLowerCase().includes(query) ||
+                e.nameFa.includes(query) ||
+                e.nameEn.toLowerCase().includes(query) ||
+                e.z.toString() === query
+            ).slice(0, 6);
+
+            if (matches.length > 0) {
+                dropdown.innerHTML = matches.map(m => `
+                    <div class="search-item" onclick="selectSearchElement(${m.z})">
+                        <span><strong>${m.symbol}</strong> - ${m.nameFa} (${m.nameEn})</span>
+                        <span style="color: var(--text-muted); font-size: 0.72rem;">Z=${m.z}</span>
+                    </div>
+                `).join('');
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.innerHTML = `<div class="search-item" style="color: var(--text-muted);">عنصری یافت نشد</div>`;
+                dropdown.style.display = 'block';
+            }
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('searchClear').style.display = 'none';
+        }
+
+        function selectSearchElement(z) {
+            clearSearch();
+            const el = ELEMENTS_DATA.find(e => e.z === z);
+            if (el) openElementModal(el);
+        }
+
+        /* ==========================================================================
+           MODAL & SVG ATOMIC MODEL ENGINE
+           ========================================================================== */
+        function openElementModal(el) {
+            state.selectedElement = el;
+
+            document.getElementById('mBadge').textContent = el.symbol;
+            document.getElementById('mNameFa').textContent = `${el.nameFa} (${el.nameEn})`;
+            document.getElementById('mMeta').textContent = `عدد اتمی: ${el.z} | گروه: ${el.group} | دوره: ${el.period} | بلوک: ${el.block.toUpperCase()}`;
+            document.getElementById('mShellDist').textContent = el.shells.join(' , ');
+            document.getElementById('mConfigShort').textContent = el.config;
+            document.getElementById('mNucleusDetails').textContent = `پروتون: ${el.protons} | نوترون: ${el.neutrons}`;
+
+            renderEncyclopedia(el);
+            renderIsotopes(el);
+            renderAtomicModelSVG(el);
+
+            document.getElementById('elementModal').classList.add('active');
+        }
+
+        function closeModalDirect() {
+            document.getElementById('elementModal').classList.remove('active');
+            if (state.animReqId) {
+                cancelAnimationFrame(state.animReqId);
+                state.animReqId = null;
+            }
+        }
+
+        function closeModal(e) {
+            if (e.target.id === 'elementModal') closeModalDirect();
+        }
+
+        function switchModalTab(tabName, btn) {
+            document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.modal-tab-content').forEach(c => c.classList.remove('active'));
+
+            btn.classList.add('active');
+            document.getElementById(`mtab-${tabName}`).classList.add('active');
+        }
+
+        function renderAtomicModelSVG(el) {
+            const svg = document.getElementById('atomSvg');
+            svg.innerHTML = '';
+
+            const nucGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            const nucCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            nucCircle.setAttribute('cx', 0);
+            nucCircle.setAttribute('cy', 0);
+            nucCircle.setAttribute('r', Math.min(24 + el.shells.length * 3, 40));
+            nucCircle.setAttribute('fill', 'url(#nucGrad)');
+            nucGroup.appendChild(nucCircle);
+
+            const nucText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            nucText.setAttribute('x', 0);
+            nucText.setAttribute('y', 4);
+            nucText.setAttribute('text-anchor', 'middle');
+            nucText.setAttribute('fill', '#ffffff');
+            nucText.setAttribute('font-size', '10');
+            nucText.setAttribute('font-weight', 'bold');
+            nucText.textContent = `${el.protons}P | ${el.neutrons}N`;
+            nucGroup.appendChild(nucText);
+
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            defs.innerHTML = `
+                <radialGradient id="nucGrad" cx="30%" cy="30%">
+                    <stop offset="0%" stop-color="#ef4444"/>
+                    <stop offset="100%" stop-color="#991b1b"/>
+                </radialGradient>
+            `;
+            svg.appendChild(defs);
+            svg.appendChild(nucGroup);
+
+            const electronElements = [];
+            let baseRadius = 50;
+
+            el.shells.forEach((count, sIdx) => {
+                const radius = baseRadius + sIdx * 24;
+
+                const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                ring.setAttribute('cx', 0);
+                ring.setAttribute('cy', 0);
+                ring.setAttribute('r', radius);
+                ring.setAttribute('fill', 'none');
+                ring.setAttribute('stroke', 'var(--border-glass)');
+                ring.setAttribute('stroke-width', '1.2');
+                ring.setAttribute('stroke-dasharray', '4 2');
+                svg.appendChild(ring);
+
+                for (let i = 0; i < count; i++) {
+                    const eGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                    const electron = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    electron.setAttribute('r', 4);
+                    electron.setAttribute('fill', '#38bdf8');
+                    electron.setAttribute('stroke', '#ffffff');
+                    electron.setAttribute('stroke-width', '1');
+                    eGroup.appendChild(electron);
+                    svg.appendChild(eGroup);
+
+                    electronElements.push({
+                        group: eGroup,
+                        radius: radius,
+                        angle: (i / count) * Math.PI * 2,
+                        speed: (0.015 / (sIdx + 1))
+                    });
+                }
+            });
+
+            function animateAtom() {
+                if (!document.getElementById('elementModal').classList.contains('active')) return;
+                
+                if (!state.animPaused) {
+                    electronElements.forEach(e => {
+                        e.angle += e.speed * state.animSpeed;
+                        const x = Math.cos(e.angle) * e.radius;
+                        const y = Math.sin(e.angle) * e.radius;
+                        e.group.setAttribute('transform', `translate(${x}, ${y})`);
+                    });
+                }
+                state.animReqId = requestAnimationFrame(animateAtom);
+            }
+
+            if (state.animReqId) cancelAnimationFrame(state.animReqId);
+            state.animReqId = requestAnimationFrame(animateAtom);
+        }
+
+        function toggleAtomAnim() {
+            state.animPaused = !state.animPaused;
+            document.getElementById('animPauseBtn').textContent = state.animPaused ? '▶' : '⏸';
+        }
+
+        function changeAnimSpeed(spd) {
+            state.animSpeed = spd;
+        }
+
+        function renderEncyclopedia(el) {
+            const grid = document.getElementById('encyclopediaGrid');
+            const props = [
+                { title: "نام فارسی", val: el.nameFa },
+                { title: "نام انگلیسی", val: el.nameEn },
+                { title: "نماد شیمیایی", val: el.symbol },
+                { title: "عدد اتمی (Z)", val: el.z },
+                { title: "جرم اتمی استاندارد", val: `${el.mass} u` },
+                { title: "گروه / دوره", val: `${el.group} / ${el.period}` },
+                { title: "بلوک", val: el.block.toUpperCase() },
+                { title: "دسته‌بندی", val: el.cat },
+                { title: "حالت فیزیکی (STP)", val: el.state === 'solid' ? 'جامد' : el.state === 'liquid' ? 'مایع' : 'گاز' },
+                { title: "آرایش الکترونی کامل", val: el.configFull },
+                { title: "آرایش الکترونی خلاصه", val: el.config },
+                { title: "توزیع لایه‌ای", val: el.shells.join(' , ') },
+                { title: "الکترون‌های ظرفیت", val: el.valance },
+                { title: "تعداد پروتون‌ها", val: el.protons },
+                { title: "تعداد نوترون‌ها", val: el.neutrons },
+                { title: "نقطه ذوب", val: el.melt },
+                { title: "نقطه جوش", val: el.boil },
+                { title: "چگالی", val: el.density },
+                { title: "الکترونگاتیوی", val: el.en },
+                { title: "انرژی اولین یونش", val: el.ie },
+                { title: "شعاع اتمی", val: el.radius },
+                { title: "حالت‌های اکسایش", val: el.ox },
+                { title: "فراوانی در طبیعت", val: el.abundance },
+                { title: "تاریخ کشف", val: el.history },
+                { title: "کاشف", val: el.discoverer },
+                { title: "محل کشف", val: el.location },
+                { title: "کاربردهای صنعتی", val: el.apps },
+                { title: "کاربردهای پزشکی", val: el.medTech },
+                { title: "نقش بیولوژیکی", val: el.bioRole },
+                { title: "واکنش‌پذیری شیمیایی", val: el.reactivity },
+                { title: "ترکیبات مهم", val: el.compounds },
+                { title: "نکات ایمنی", val: el.safety },
+                { title: "رادیواکتیویته", val: el.radioactive ? "رادیواکتیو ☢️" : "پایدار" }
+            ];
+
+            grid.innerHTML = props.map(p => `
+                <div class="prop-card">
+                    <span class="prop-title">${p.title}</span>
+                    <span class="prop-value">${p.val}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderIsotopes(el) {
+            const grid = document.getElementById('isotopesGrid');
+            grid.innerHTML = `
+                <div class="prop-card">
+                    <span class="prop-title">ایزوتوپ اصلی (${el.symbol}-${el.protons + el.neutrons})</span>
+                    <span class="prop-value">پروتون: ${el.protons} | نوترون: ${el.neutrons} | فراوانی: ایزوتوپ غالب</span>
+                </div>
+                <div class="prop-card">
+                    <span class="prop-title">ایزوتوپ فرعی (${el.symbol}-${el.protons + el.neutrons + 1})</span>
+                    <span class="prop-value">پروتون: ${el.protons} | نوترون: ${el.neutrons + 1} | نیمه‌عمر: پایدار / کم‌فراوان</span>
+                </div>
+            `;
+        }
+
+        /* ==========================================================================
+           COMPARISON VIEW ENGINE
+           ========================================================================== */
+        function populateCompareDropdowns() {
+            const selects = [document.getElementById('compare1'), document.getElementById('compare2'), document.getElementById('compare3')];
+            const optionsHtml = `<option value="">-- انتخاب عنصر --</option>` + ELEMENTS_DATA.map(e => `<option value="${e.z}">${e.symbol} - ${e.nameFa}</option>`).join('');
+
+            selects.forEach((sel, i) => {
+                sel.innerHTML = optionsHtml;
+                if (i === 0) sel.value = "11";
+                if (i === 1) sel.value = "19";
+            });
+        }
+
+        function renderComparison() {
+            const z1 = document.getElementById('compare1').value;
+            const z2 = document.getElementById('compare2').value;
+            const z3 = document.getElementById('compare3').value;
+
+            const selected = [z1, z2, z3].map(z => ELEMENTS_DATA.find(e => e.z == z)).filter(Boolean);
+            const table = document.getElementById('compareTable');
+
+            if (selected.length === 0) {
+                table.innerHTML = `<tr><td style="text-align:center;">لطفاً حداقل یک عنصر برای مقایسه انتخاب کنید.</td></tr>`;
+                return;
+            }
+
+            const keys = [
+                { name: "نام عنصر", prop: "nameFa" },
+                { name: "نماد شیمیایی", prop: "symbol" },
+                { name: "عدد اتمی", prop: "z" },
+                { name: "جرم اتمی", prop: "mass" },
+                { name: "گروه / دوره", prop: e => `${e.group} / ${e.period}` },
+                { name: "شعاع اتمی", prop: "radius" },
+                { name: "الکترونگاتیوی", prop: "en" },
+                { name: "انرژی یونش", prop: "ie" },
+                { name: "نقطه ذوب", prop: "melt" },
+                { name: "چگالی", prop: "density" },
+                { name: "حالت فیزیکی", prop: "state" }
+            ];
+
+            let html = `<thead><tr><th>ویژگی / شاخص</th>${selected.map(s => `<th>${s.symbol} (${s.nameFa})</th>`).join('')}</tr></thead><tbody>`;
+
+            keys.forEach(k => {
+                html += `<tr><td><strong>${k.name}</strong></td>`;
+                selected.forEach(s => {
+                    const val = typeof k.prop === 'function' ? k.prop(s) : s[k.prop];
+                    html += `<td>${val}</td>`;
+                });
+                html += `</tr>`;
+            });
+
+            html += `</tbody>`;
+            table.innerHTML = html;
+        }
+
+        /* ==========================================================================
+           PERIODIC TRENDS HEATMAP
+           ========================================================================== */
+        function applyTrendHeatmap(propKey) {
+            const grid = document.getElementById('trendGrid');
+            grid.innerHTML = '';
+
+            ELEMENTS_DATA.forEach(el => {
+                const cell = document.createElement('div');
+                cell.className = `element-cell cat-${el.cat}`;
+
+                if (el.z >= 57 && el.z <= 71) {
+                    cell.style.gridRow = 9;
+                    cell.style.gridColumn = (el.z - 57) + 4;
+                } else if (el.z >= 89 && el.z <= 103) {
+                    cell.style.gridRow = 10;
+                    cell.style.gridColumn = (el.z - 89) + 4;
+                } else {
+                    cell.style.gridRow = el.period;
+                    cell.style.gridColumn = el.group;
+                }
+
+                cell.innerHTML = `
+                    <div class="cell-top"><span class="cell-z">${el.z}</span></div>
+                    <div class="cell-symbol">${el.symbol}</div>
+                    <div style="font-size: clamp(0.5rem, 0.7vw, 0.75rem); font-weight:bold; color:var(--accent-color); text-align:center;">${el[propKey]}</div>
+                `;
+
+                grid.appendChild(cell);
+            });
+        }
+
+        /* ==========================================================================
+           VIEW SWITCHER & THEME UTILITIES
+           ========================================================================== */
+        function switchView(viewName) {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.view-panel').forEach(v => v.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            document.getElementById(`view-${viewName}`).classList.add('active');
+
+            if (viewName === 'trends') {
+                applyTrendHeatmap(document.getElementById('trendSelect').value);
+            }
+        }
+
+        function toggleTheme() {
+            state.theme = state.theme === 'dark' ? 'light' : 'dark';
+            applyTheme(state.theme);
+            localStorage.setItem('theme', state.theme);
+        }
+
+        function applyTheme(th) {
+            document.documentElement.setAttribute('data-theme', th);
+        }
+
+        function toggleReduceMotion() {
+            state.reduceMotion = !state.reduceMotion;
+            document.body.classList.toggle('reduce-motion', state.reduceMotion);
+        }
+    </script>
+</body>
+</html>
